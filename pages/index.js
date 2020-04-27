@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import litany from '../data/litany'
+import CharCube from '../phases/components/CharCube'
 
 export default function Home() {
   return (
@@ -15,7 +16,9 @@ export default function Home() {
         </h1>
 
 
-
+        <section className="card">
+          <CharCube solution="s" />
+        </section>
 
       </main>
 
