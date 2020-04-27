@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import litany from '../data/litany'
 
 export default function Home() {
   return (
