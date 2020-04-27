@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import litany from '../data/litany'
-import CharCube from '../phases/components/CharCube'
+import Head from "next/head";
+import litany from "../data/litany";
+import CharCube from "../phases/components/CharCube";
 
 export default function Home() {
   return (
@@ -11,15 +11,11 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">
-          Litany Against Fear
-        </h1>
-
+        <h1 className="title">Litany Against Fear</h1>
 
         <section className="card">
           <CharCube solution="s" />
         </section>
-
       </main>
 
       <footer>
@@ -172,5 +168,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
