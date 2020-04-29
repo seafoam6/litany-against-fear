@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CharCube should render 1`] = `
+<div>
+  <input
+    class="jsx-3905544307"
+    maxlength="1"
+    minlength="1"
+    placeholder=""
+    type="text"
+    value=""
+  />
+</div>
+`;
