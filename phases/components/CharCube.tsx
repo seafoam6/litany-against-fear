@@ -1,5 +1,3 @@
-import React from "react";
-
 import { useState } from "react";
 
 interface Props {
@@ -19,8 +17,8 @@ const CharCube: React.FC<Props> = ({ solution }) => {
   const handleChange = (event) => {
     const value = event.target.value;
 
-    if (value === solution) {
-      setVal(value);
+    if (value.toLowerCase() === solution.toLowerCase()) {
+      setVal(solution);
       setReadOnly(true);
     } else {
       setVal("");

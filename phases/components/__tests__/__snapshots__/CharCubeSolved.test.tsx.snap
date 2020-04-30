@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CharCubeSolved should render 1`] = `
+<div>
+  <input
+    class="jsx-3986130374"
+    maxlength="1"
+    minlength="1"
+    readonly=""
+    type="text"
+    value="s"
+  />
+</div>
+`;

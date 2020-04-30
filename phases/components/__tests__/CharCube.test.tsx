@@ -1,4 +1,3 @@
-import React from "react";
 import CharCube from "../CharCube";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -19,6 +18,14 @@ const setupTypedWrong = async () => {
   return { input, debug, container };
 };
 
+const setupType = async (answer, typed) => {
+  const { container, debug } = render(<CharCube solution={answer} />);
+
+  const input = container.querySelector("input");
+  await userEvent.type(input, typed);
+  return { input, debug, container };
+};
+
 describe("CharCube", () => {
   it("should render", () => {
     const { container } = render(<CharCube solution="s" />);
@@ -32,6 +39,10 @@ describe("CharCube", () => {
     });
     it("should be readonly", async () => {
       const { input, debug } = await setupTypedCorrect();
+      expect(input).toHaveAttribute("readonly");
+    });
+    it("should be case insensitive", async () => {
+      const { input, debug } = await setupType("S", "s");
       expect(input).toHaveAttribute("readonly");
     });
   });

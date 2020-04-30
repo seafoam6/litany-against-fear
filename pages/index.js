@@ -1,6 +1,9 @@
 import Head from "next/head";
 import litany from "../data/litany";
 import CharCube from "../phases/components/CharCube";
+import Phase1Line from "../phases/components/Phase1Line";
+
+const line = litany.split("\n").filter((line) => line !== "");
 
 export default function Home() {
   return (
@@ -14,7 +17,7 @@ export default function Home() {
         <h1 className="title">Litany Against Fear</h1>
 
         <section className="card">
-          <CharCube solution="s" />
+          <Phase1Line solution="I must not fear." />
         </section>
       </main>
 
