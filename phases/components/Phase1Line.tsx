@@ -8,7 +8,7 @@ interface Props {
 const Phase1Line: React.FC<Props> = ({ solution }) => {
   const chars = solution.split("").map((char, ind) => {
     const regex = RegExp(/[^A-Za-z0-9]+/);
-    console.log(char, regex.test(char));
+    // console.log(char, regex.test(char));
     if (!regex.test(char)) {
       return <CharCube key={ind} solution={char} />;
     }

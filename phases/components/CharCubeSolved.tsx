@@ -7,19 +7,12 @@ interface Props {
 const CharCubeSolved: React.FC<Props> = ({ solution }) => {
   return (
     <>
-      <input
-        type="text"
-        minLength={1}
-        maxLength={1}
-        value={solution}
-        readOnly={true}
-      />
+      <div>{solution}</div>
       <style jsx>{`
-        input {
-          font-size: 2em;
-          width: 2em;
+        div {
+          width: 3em;
           text-align: center;
-          background-color: red;
+          display: inline-block;
         }
       `}</style>
     </>
