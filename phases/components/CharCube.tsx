@@ -1,6 +1,7 @@
 import { useState, createRef, useEffect } from "react";
 import CharCubeSolved from "./CharCubeSolved";
 import { Machine, interpret } from "xstate";
+import { useMachine, useService } from "@xstate/react";
 
 interface Props {
   solution: string;
@@ -8,48 +9,40 @@ interface Props {
   keyy: number;
 }
 
-// todo: finish updating logic to xstate
-
-const lineStateMachine = Machine({
-  id: "character",
-  type: "parallel",
-  initial: "unsolved",
-  states: {
-    focus: {
-      initial: "unfocused",
-      states: {
-        focused: {
-          on: { UNFOCUS: "unfocused" },
-        },
-        unfocused: {
-          on: { FOCUS: "focused" },
-        },
-      },
-    },
-    unsolved: {
-      on: {
-        CORRECT: "solved",
-      },
-    },
-    solved: {
-      type: "final",
-    },
+const initial = "unsolved";
+const unsolved = {
+  on: {
+    CORRECT: "solved",
   },
-});
+};
+const solved = {
+  type: "final" as const,
+};
+const states = {
+  unsolved,
+  solved,
+};
 
-const lineService = interpret(lineStateMachine).onTransition((state) =>
-  console.log(`STATE: ${state.value}`)
-);
+// todo: add focused, unfocused
+const lineStateMachine = Machine({
+  id: "line",
+  initial,
+  states,
+});
 
 const CharCube: React.FC<Props> = ({ solution, isFocused, keyy }) => {
   const textInput = createRef<HTMLInputElement>();
   const [val, setVal] = useState("");
   const [placeholder, setPlaceholder] = useState("");
-  const [isReadOnly, setReadOnly] = useState(false);
+  const [state, send, service] = useMachine(lineStateMachine);
 
   useEffect(() => {
-    lineService.start();
-  }, []);
+    const subscription = service.subscribe((state) => {
+      //console.log(`STATE: ${state.value}`);
+    });
+
+    return subscription.unsubscribe;
+  }, [service]);
 
   useEffect(() => {
     if (isFocused) {
@@ -67,10 +60,8 @@ const CharCube: React.FC<Props> = ({ solution, isFocused, keyy }) => {
     const value = event.target.value;
 
     if (value.toLowerCase() === solution.toLowerCase()) {
-      setVal(solution);
-      setReadOnly(true);
+      send("CORRECT");
       blur();
-      console.log(keyy);
     } else {
       setVal("");
       setPlaceholder(value);
@@ -79,7 +70,7 @@ const CharCube: React.FC<Props> = ({ solution, isFocused, keyy }) => {
 
   const placeHolderColor = "red";
 
-  if (isReadOnly) {
+  if (state.value === "solved") {
     return <CharCubeSolved solution={solution} />;
   }
 

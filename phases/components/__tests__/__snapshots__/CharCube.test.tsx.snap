@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CharCube inputing correct answer should be case insensitive 1`] = `
+<div>
+  <div
+    class="jsx-2087504289"
+  >
+    S
+  </div>
+</div>
+`;
+
+exports[`CharCube inputing correct answer should be solved 1`] = `
+<div>
+  <div
+    class="jsx-2087504289"
+  >
+    s
+  </div>
+</div>
+`;
+
 exports[`CharCube should render 1`] = `
 <div>
   <input

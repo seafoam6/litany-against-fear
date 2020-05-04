@@ -3,7 +3,9 @@ import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 const setupTypedCorrect = async () => {
-  const { container, debug } = render(<CharCube solution="s" />);
+  const { container, debug } = render(
+    <CharCube solution="s" isFocused={false} keyy={3} />
+  );
 
   const input = container.querySelector("input");
   await userEvent.type(input, "s");
@@ -11,7 +13,9 @@ const setupTypedCorrect = async () => {
 };
 
 const setupTypedWrong = async () => {
-  const { container, debug } = render(<CharCube solution="s" />);
+  const { container, debug } = render(
+    <CharCube solution="s" isFocused={false} keyy={3} />
+  );
 
   const input = container.querySelector("input");
   await userEvent.type(input, "x");
@@ -19,16 +23,20 @@ const setupTypedWrong = async () => {
 };
 
 const setupType = async (answer, typed) => {
-  const { container, debug } = render(<CharCube solution={answer} />);
+  const { container, debug } = render(
+    <CharCube solution={answer} isFocused={false} keyy={3} />
+  );
 
   const input = container.querySelector("input");
   await userEvent.type(input, typed);
-  return { input, debug, container };
+  return { debug, container };
 };
 
 describe("CharCube", () => {
   it("should render", () => {
-    const { container } = render(<CharCube solution="s" />);
+    const { container } = render(
+      <CharCube solution="s" isFocused={false} keyy={3} />
+    );
     expect(container).toMatchSnapshot();
   });
 
@@ -37,13 +45,14 @@ describe("CharCube", () => {
       const { input } = await setupTypedCorrect();
       expect(input.value).toEqual("s");
     });
-    it("should be readonly", async () => {
-      const { input, debug } = await setupTypedCorrect();
-      expect(input).toHaveAttribute("readonly");
+    it("should be solved", async () => {
+      const { container } = await setupTypedCorrect();
+
+      expect(container).toMatchSnapshot();
     });
     it("should be case insensitive", async () => {
-      const { input, debug } = await setupType("S", "s");
-      expect(input).toHaveAttribute("readonly");
+      const { container } = await setupType("S", "s");
+      expect(container).toMatchSnapshot();
     });
   });
 
