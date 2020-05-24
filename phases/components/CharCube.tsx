@@ -6,7 +6,8 @@ import { useMachine, useService } from "@xstate/react";
 interface Props {
   solution: string;
   isFocused: boolean;
-  keyy: number;
+  ind: number;
+  onSolved?: Function;
 }
 
 const initial = "unsolved";
@@ -30,7 +31,12 @@ const lineStateMachine = Machine({
   states,
 });
 
-const CharCube: React.FC<Props> = ({ solution, isFocused, keyy }) => {
+const CharCube: React.FC<Props> = ({
+  solution,
+  isFocused,
+  ind,
+  onSolved = () => {},
+}) => {
   const textInput = createRef<HTMLInputElement>();
   const [val, setVal] = useState("");
   const [placeholder, setPlaceholder] = useState("");
@@ -60,8 +66,9 @@ const CharCube: React.FC<Props> = ({ solution, isFocused, keyy }) => {
     const value = event.target.value;
 
     if (value.toLowerCase() === solution.toLowerCase()) {
+      onSolved(ind);
       send("CORRECT");
-      blur();
+      //
     } else {
       setVal("");
       setPlaceholder(value);
@@ -69,8 +76,9 @@ const CharCube: React.FC<Props> = ({ solution, isFocused, keyy }) => {
   };
 
   const placeHolderColor = "red";
+  const regex = RegExp(/[^A-Za-z0-9]+/);
 
-  if (state.value === "solved") {
+  if (state.value === "solved" || regex.test(solution)) {
     return <CharCubeSolved solution={solution} />;
   }
 
