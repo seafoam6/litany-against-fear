@@ -10,7 +10,7 @@ interface Props {
 
 const Phase1Line: React.FC<Props> = ({ solution }) => {
   const [lineSolved, setLineSolved] = useState(false);
-  const [unsolved, setUnsolved] = useState([]);
+  const [unsolved, setUnsolved] = useState<string[]>([]);
 
   useEffect(() => {
     const chars = solution.split("").map((char, ind) => {
@@ -24,12 +24,22 @@ const Phase1Line: React.FC<Props> = ({ solution }) => {
     setUnsolved(chars);
   }, [solution]);
 
-  console.log(unsolved.length, solution.length);
+  const onSolvedChar = (ind) => {
+    setUnsolved([...unsolved.slice(0, ind), ...unsolved.slice(ind + 1)]);
+  };
 
   const thing = solution.split("").map((char, ind) => {
-    return <CharCube solution={char} ind={ind} isFocused={false} />;
+    return (
+      <CharCube
+        key={ind}
+        solution={char}
+        ind={ind}
+        isFocused={false}
+        onSolved={onSolvedChar}
+      />
+    );
   });
-
+  console.log(unsolved);
   return <>{[...thing]}</>;
 };
 
