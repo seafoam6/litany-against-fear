@@ -6,11 +6,19 @@ interface Props {
   solution: string;
 }
 
-// TODO: pass function down to know when blurred
+export const nullOutChar = (unsolved, ind) => {
+  let newArray = [...unsolved];
+  newArray[ind] = null;
+  return newArray;
+};
+
+export const firstNonNullChar = (unsolved) =>
+  unsolved.findIndex((c) => c !== null);
 
 const Phase1Line: React.FC<Props> = ({ solution }) => {
   const [lineSolved, setLineSolved] = useState(false);
   const [unsolved, setUnsolved] = useState<string[]>([]);
+  const [focusedIndex, setFocusedIndex] = useState(0);
 
   useEffect(() => {
     const chars = solution.split("").map((char, ind) => {
@@ -25,7 +33,10 @@ const Phase1Line: React.FC<Props> = ({ solution }) => {
   }, [solution]);
 
   const onSolvedChar = (ind) => {
-    setUnsolved([...unsolved.slice(0, ind), ...unsolved.slice(ind + 1)]);
+    const thing = nullOutChar(unsolved, ind);
+    setUnsolved(thing);
+    const indexToFocus = firstNonNullChar(thing);
+    setFocusedIndex(indexToFocus);
   };
 
   const thing = solution.split("").map((char, ind) => {
@@ -34,12 +45,12 @@ const Phase1Line: React.FC<Props> = ({ solution }) => {
         key={ind}
         solution={char}
         ind={ind}
-        isFocused={false}
+        isFocused={ind === focusedIndex}
         onSolved={onSolvedChar}
       />
     );
   });
-  console.log(unsolved);
+
   return <>{[...thing]}</>;
 };
 
