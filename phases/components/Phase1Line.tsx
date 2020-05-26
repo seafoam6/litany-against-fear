@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
 import CharCube from "./CharCube";
-import CharCubeSolved from "./CharCubeSolved";
 
 interface Props {
   solution: string;
+  lineIndex: number;
+  onLineSolved: Function;
+  isVisible: boolean;
 }
 
-export const nullOutChar = (unsolved, ind) => {
+export const alterArray = (unsolved, ind, valSet) => {
   let newArray = [...unsolved];
-  newArray[ind] = null;
+  newArray[ind] = valSet;
   return newArray;
 };
 
 export const firstNonNullChar = (unsolved) =>
   unsolved.findIndex((c) => c !== null);
 
-const Phase1Line: React.FC<Props> = ({ solution }) => {
-  const [lineSolved, setLineSolved] = useState(false);
+const Phase1Line: React.FC<Props> = ({
+  solution,
+  lineIndex,
+  onLineSolved,
+  isVisible,
+}) => {
   const [unsolved, setUnsolved] = useState<string[]>([]);
   const [focusedIndex, setFocusedIndex] = useState(0);
 
@@ -33,10 +39,14 @@ const Phase1Line: React.FC<Props> = ({ solution }) => {
   }, [solution]);
 
   const onSolvedChar = (ind) => {
-    const thing = nullOutChar(unsolved, ind);
+    const thing = alterArray(unsolved, ind, null);
     setUnsolved(thing);
     const indexToFocus = firstNonNullChar(thing);
-    setFocusedIndex(indexToFocus);
+    if (indexToFocus === -1) {
+      onLineSolved(lineIndex);
+    } else {
+      setFocusedIndex(indexToFocus);
+    }
   };
 
   const thing = solution.split("").map((char, ind) => {
@@ -51,7 +61,58 @@ const Phase1Line: React.FC<Props> = ({ solution }) => {
     );
   });
 
-  return <>{[...thing]}</>;
+  return !isVisible ? null : (
+    <section className="card">
+      {[...thing]}
+
+      <style jsx>{`
+        .card {
+          margin: 1rem;
+          flex-basis: 45%;
+          padding: 1.5rem;
+          text-align: left;
+          color: inherit;
+          text-decoration: none;
+          border: 1px solid #eaeaea;
+          border-radius: 10px;
+          transition: color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .card:hover,
+        .card:focus,
+        .card:active {
+          color: #0070f3;
+          border-color: #0070f3;
+        }
+
+        .card h3 {
+          margin: 0 0 1rem 0;
+          font-size: 1.5rem;
+        }
+
+        .card p {
+          margin: 0;
+          font-size: 1.25rem;
+          line-height: 1.5;
+        }
+      `}</style>
+
+      <style jsx global>{`
+        html,
+        body {
+          padding: 0;
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+            sans-serif;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+      `}</style>
+    </section>
+  );
 };
 
 export default Phase1Line;

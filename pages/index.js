@@ -1,10 +1,32 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import litany from "../data/litany";
 import Phase1Line from "../phases/components/Phase1Line";
 
 const lines = litany.split("\n").filter((line) => line !== "");
 
+export const alterArray = (unsolved, ind, valSet) => {
+  let newArray = [...unsolved];
+  newArray[ind] = valSet;
+  return newArray;
+};
+
+export const firstNonFalseEl = (unsolved) =>
+  unsolved.findIndex((c) => c !== false);
+
 export const Home = () => {
+  const [linesSolved, setLinesSolved] = useState(lines.map((i) => false));
+  const [visibleLines, setVisibleLines] = useState(
+    lines.map((i, ind) => ind === 0)
+  );
+
+  const onLineSolved = (ind) => {
+    const newStuff = alterArray(linesSolved, ind, true);
+    const newVisible = alterArray(visibleLines, ind + 1, true);
+    setLinesSolved(newStuff);
+    setVisibleLines(newVisible);
+  };
+
   return (
     <div className="container">
       <Head>
@@ -15,9 +37,17 @@ export const Home = () => {
       <main>
         <h1 className="title">Litany Against Fear</h1>
 
-        <section className="card">
-          <Phase1Line solution={lines[0]} />
-        </section>
+        {lines.map((line, ind) => {
+          return (
+            <Phase1Line
+              solution={line}
+              onLineSolved={onLineSolved}
+              lineIndex={ind}
+              key={ind}
+              isVisible={visibleLines[ind]}
+            />
+          );
+        })}
       </main>
 
       <footer>

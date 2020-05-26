@@ -1,4 +1,4 @@
-import { nullOutChar, firstNonNullChar } from "../Phase1Line";
+import { alterArray, firstNonNullChar } from "../Phase1Line";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -21,9 +21,9 @@ const arrayState = [
   null,
 ];
 
-describe("nullOutChar", () => {
+describe("alterArray", () => {
   it("should set the first character to null", () => {
-    const result = nullOutChar(arrayState, 0);
+    const result = alterArray(arrayState, 0, null);
     expect(result).toEqual([
       null,
       null,
@@ -45,7 +45,7 @@ describe("nullOutChar", () => {
   });
 
   it("should set the any character to null", () => {
-    const result = nullOutChar(arrayState, 2);
+    const result = alterArray(arrayState, 2, null);
     expect(result).toEqual([
       "I",
       null,
@@ -67,8 +67,8 @@ describe("nullOutChar", () => {
   });
 
   it("should set the any character to null", () => {
-    const result = nullOutChar(arrayState, 4);
-    const result2 = nullOutChar(result, 0);
+    const result = alterArray(arrayState, 4, null);
+    const result2 = alterArray(result, 0, null);
 
     expect(result2).toEqual([
       null,

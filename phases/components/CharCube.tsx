@@ -24,7 +24,6 @@ const states = {
   solved,
 };
 
-// todo: add focused, unfocused
 const lineStateMachine = Machine({
   id: "line",
   initial,
@@ -56,19 +55,12 @@ const CharCube: React.FC<Props> = ({
     }
   }, [isFocused]);
 
-  const blur = () => {
-    if (textInput.current) {
-      textInput.current.blur();
-    }
-  };
-
   const handleChange = (event) => {
     const value = event.target.value;
 
     if (value.toLowerCase() === solution.toLowerCase()) {
       onSolved(ind);
       send("CORRECT");
-      //
     } else {
       setVal("");
       setPlaceholder(value);
