@@ -10,7 +10,7 @@ const CharCubeSolved: React.FC<Props> = ({ solution }) => {
       <div>{solution}</div>
       <style jsx>{`
         div {
-          width: 3em;
+          width: 1em;
           text-align: center;
           display: inline-block;
         }

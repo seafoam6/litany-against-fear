@@ -3,7 +3,7 @@
 exports[`CharCube inputing correct answer should be case insensitive 1`] = `
 <div>
   <div
-    class="jsx-2087504289"
+    class="jsx-55556712"
   >
     S
   </div>
@@ -13,7 +13,7 @@ exports[`CharCube inputing correct answer should be case insensitive 1`] = `
 exports[`CharCube inputing correct answer should be solved 1`] = `
 <div>
   <div
-    class="jsx-2087504289"
+    class="jsx-55556712"
   >
     s
   </div>

@@ -68,6 +68,8 @@ export const Home = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          max-width: 600px;
+          margin: 0 auto;
         }
 
         main {
